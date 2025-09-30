@@ -24,7 +24,7 @@ password = ''            # Password (empty for open networks like Wokwi-GUEST)
 
 # ThingSpeak API configuration
 
-THINGSPEAK_API_KEY = 'XXXXX'  # Your ThingSpeak Write API Key
+THINGSPEAK_API_KEY = 'LI2Y2IKO95YH81VP'  # Your ThingSpeak Write API Key
 
 THINGSPEAK_URL = 'https://api.thingspeak.com/update'  # ThingSpeak endpoint
 
