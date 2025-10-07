@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oma lämpötilakaavio</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>Lämpötilakaavio</h2>
+    <canvas id="tempChart" width="300" height="100"></canvas>
+  
+    <script>
+        const channelId = "3079305"; // oma kanava
+        const apiKey = "ZJ0BBFFKF7NJ3LUN"; // oma Read API Key
+        const fieldNumber = 1; // Kenttä 1 = lämpötila
+
+        // ThingSpeakin JSON endpoint
+        const url = `https://api.thingspeak.com/channels/${channelId}/fields/${fieldNumber}.json?api_key=${apiKey}&results=60`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.feeds.map(feed => feed.created_at);
+                const values = data.feeds.map(feed => parseFloat(feed[`field${fieldNumber}`]));
+
+                const ctx = document.getElementById('tempChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Lämpötila (°C)',
+                            data: values,
+                            borderColor: 'rgb(255, 99, 132)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                ticks: {
+                                    maxTicksLimit: 10
+                                }
+                            },
+                            y: {
+                                beginAtZero: false
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
